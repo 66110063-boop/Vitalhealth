@@ -101,7 +101,8 @@ export default function SleepPage() {
             ))}
           </div>
           <div className="mb-[18px]">
-            <label className="block text-[0.88rem] font-medium text-app-text2 mb-2.5 text-center font-sarabun">คุณภาพการนอน</label>
+            <label className="block text-[0.88rem] font-medium text-app-text2 mb-1 text-center font-sarabun">คุณภาพการนอน</label>
+            <p className="text-[0.72rem] text-app-text3 text-center mb-3 font-sarabun">ประเมินจากความรู้สึกของคุณเมื่อตื่นนอน</p>
             <div className="flex gap-2 justify-center mb-2">
               {[1,2,3,4,5].map(n => (
                 <button key={n} onClick={() => setStars(n)}
@@ -111,7 +112,17 @@ export default function SleepPage() {
                 </button>
               ))}
             </div>
-            <div className="text-center text-[0.82rem] font-medium text-green-deep font-sarabun">{starLabels[stars]}</div>
+            <div className="text-center text-[0.85rem] font-bold text-green-deep font-sarabun">{starLabels[stars]}</div>
+            <div className="text-center text-[0.78rem] text-app-text3 mt-1.5 px-3 font-sarabun leading-relaxed min-h-[36px]">
+              {[
+                '',
+                '💤 รู้สึกอ่อนเพลียมาก นอนไม่หลับ ตื่นกลางดึกบ่อย',
+                '🥱 หลับ ๆ ตื่น ๆ รู้สึกตัวบ่อย ตื่นมายังเพลียอยู่บ้าง',
+                '😐 หลับได้ปานกลาง ตื่นตามเวลา รู้สึกกึ่งสดชื่นกึ่งอ่อนล้า',
+                '😊 หลับสนิทเกือบตลอดคืน ตื่นมารู้สึกสดชื่น มีพลังงาน',
+                '✨ หลับสนิทลึกรวดเดียว ตื่นเช้ามาสดชื่นกระปรี้กระเปร่าที่สุด!'
+              ][stars]}
+            </div>
           </div>
           <button onClick={handleSave} disabled={loading}
             className="w-full py-3 rounded-app-sm font-prompt font-semibold text-white text-[1rem] border-none cursor-pointer transition-all hover:opacity-90 hover:-translate-y-px shadow-md disabled:opacity-70"
