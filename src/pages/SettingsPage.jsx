@@ -6,11 +6,147 @@ import PageTransition from '../components/PageTransition'
 
 export default function SettingsPage() {
   const { showToast } = useToast()
-  const { resetData, isDarkMode, toggleDarkMode, notificationSettings: notifs, updateNotificationSettings, goals, updateGoals, themeColor, setThemeColor } = useHealthStore()
+  const { resetData, isDarkMode, toggleDarkMode, notificationSettings: notifs, updateNotificationSettings, goals, updateGoals, themeColor, setThemeColor, physicalProfile } = useHealthStore()
   const { user } = useAuth()
   const [loading, setLoading] = useState(false)
+  const [aiLoading, setAiLoading] = useState(false)
+  const [aiStatus, setAiStatus] = useState('')
+  const [aiExplanation, setAiExplanation] = useState('')
 
-  // Notification settings are now managed by Zustand store
+  // สังเคราะห์เสียงด้วย Web Audio API ตอนเริ่มวิเคราะห์
+  const playWarmUpSound = () => {
+    try {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(150, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(300, ctx.currentTime + 0.35);
+      
+      gain.gain.setValueAtTime(0.04, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.35);
+      
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start();
+      osc.stop(ctx.currentTime + 0.35);
+    } catch (e) {
+      console.warn("Audio Context error", e);
+    }
+  };
+
+  // สังเคราะห์เสียงด้วย Web Audio API เมื่อประมวลผลแนะนำเป้าหมาย AI สำเร็จ
+  const playSuccessSparkleSound = () => {
+    try {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      const now = ctx.currentTime;
+      const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6 (major arpeggio)
+      
+      notes.forEach((freq, index) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        
+        osc.type = 'triangle';
+        osc.frequency.value = freq;
+        
+        const startTime = now + (index * 0.08);
+        const duration = 0.45;
+        
+        gain.gain.setValueAtTime(0, startTime);
+        gain.gain.linearRampToValueAtTime(0.05, startTime + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.001, startTime + duration);
+        
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(startTime);
+        osc.stop(startTime + duration);
+      });
+    } catch (e) {
+      console.warn("Audio Context error", e);
+    }
+  };
+
+  const handleAIRecommend = async () => {
+    if (!physicalProfile || !physicalProfile.weight || !physicalProfile.height) {
+      showToast('กรุณากรอกข้อมูลส่วนตัวในหน้าโปรไฟล์ก่อนเพื่อรับคำแนะนำ', 'error');
+      return;
+    }
+
+    setAiLoading(true);
+    setAiExplanation('');
+    playWarmUpSound();
+
+    const statusUpdates = [
+      'กำลังตรวจสอบข้อมูลร่างกาย...',
+      'กำลังประเมินค่า BMR และ TDEE...',
+      'กำลังหาช่วงน้ำหนักตามเกณฑ์ดัชนีมวลกายเอเชีย...',
+      'กำลังเรียบเรียงแผนแนะนำเป้าหมายสุขภาพ...'
+    ];
+
+    let step = 0;
+    setAiStatus(statusUpdates[0]);
+    const statusInterval = setInterval(() => {
+      if (step < statusUpdates.length - 1) {
+        step++;
+        setAiStatus(statusUpdates[step]);
+      }
+    }, 1200);
+
+    try {
+      const response = await fetch('/api/recommend-goals', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ physicalProfile })
+      });
+
+      clearInterval(statusInterval);
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'ไม่สามารถรับข้อมูลแนะนำเป้าหมายได้');
+      }
+
+      const data = await response.json();
+      
+      // อัปเดตเป้าหมายใน Zustand Store
+      updateGoals({
+        calories: Number(data.calories) || goals.calories,
+        sleep: Number(data.sleep) || goals.sleep,
+        targetWeight: Number(data.targetWeight) || goals.targetWeight
+      }, user?.email);
+
+      setAiExplanation(data.explanation);
+      playSuccessSparkleSound();
+      showToast('คำนวณและปรับเปลี่ยนเป้าหมายสุขภาพเรียบร้อยแล้ว!', 'success');
+
+    } catch (err) {
+      clearInterval(statusInterval);
+      showToast(err.message || 'เกิดข้อผิดพลาดในการเชื่อมต่อกับ AI', 'error');
+    } finally {
+      setAiLoading(false);
+      setAiStatus('');
+    }
+  };
+
+  // เรนเดอร์คำอธิบายที่ได้จาก AI รองรับ Bold Markdown **
+  const renderExplanation = (text) => {
+    if (!text) return null;
+    const lines = text.split('\n');
+    return lines.map((line, idx) => {
+      const parts = line.split(/\*\*(.*?)\*\//g);
+      return (
+        <div key={idx} className="mb-1 text-[0.82rem] leading-relaxed">
+          {parts.map((part, pIdx) => {
+            if (pIdx % 2 === 1) {
+              return <strong key={pIdx} className="font-bold text-green-deep dark:text-[#52d3a2]">{part}</strong>;
+            }
+            return part;
+          })}
+        </div>
+      );
+    });
+  };
 
   const handleSave = () => {
     setLoading(true)
@@ -126,11 +262,66 @@ export default function SettingsPage() {
             </div>
           </div>
 
-          <div className="bg-white rounded-app p-7 shadow-app border-[1.5px] border-app-border">
-            <h3 className="text-[1.05rem] font-semibold mb-6 flex items-center gap-2 font-prompt text-green-deep">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
-              เป้าหมายสุขภาพ
-            </h3>
+          <div className="bg-white rounded-app p-7 shadow-app border-[1.5px] border-app-border relative overflow-hidden">
+            <div className="flex items-center justify-between mb-6 border-b border-app-bg2 pb-4">
+              <h3 className="text-[1.05rem] font-semibold flex items-center gap-2 font-prompt text-green-deep">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+                เป้าหมายสุขภาพ
+              </h3>
+              <button
+                onClick={handleAIRecommend}
+                disabled={aiLoading}
+                className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[0.8rem] font-prompt font-semibold text-white transition-all shadow-sm hover:opacity-90 disabled:opacity-50 active:scale-95 cursor-pointer"
+                style={{ backgroundColor: themeColor }}
+              >
+                {aiLoading ? (
+                  <>
+                    <svg className="animate-spin h-3.5 w-3.5 text-white" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                    </svg>
+                    <span>{aiStatus || 'กำลังวิเคราะห์...'}</span>
+                  </>
+                ) : (
+                  <>
+                    <span>🤖 แนะนำโดย AI</span>
+                  </>
+                )}
+              </button>
+            </div>
+
+            {aiExplanation && (
+              <div className="mb-6 p-4 bg-[#f0faf7] dark:bg-[#0a2018] border border-green-mid/30 dark:border-green-mid/10 rounded-app shadow-sm relative transition-all duration-500 ease-in-out">
+                <button 
+                  onClick={() => setAiExplanation('')}
+                  className="absolute top-2.5 right-3 text-app-text3 hover:text-red-500 transition-colors text-[0.95rem] font-bold p-1 cursor-pointer"
+                  title="ปิด"
+                >
+                  ✕
+                </button>
+                <div className="flex items-start gap-2.5">
+                  <div className="text-[1.3rem] mt-0.5 animate-bounce">🤖</div>
+                  <div className="flex-1 font-sarabun text-[0.88rem] leading-relaxed text-app-text2">
+                    <h4 className="font-prompt font-bold text-green-deep dark:text-[#52d3a2] text-[0.92rem] mb-2 flex items-center gap-1.5">
+                      ผลการวิเคราะห์เป้าหมายโดย AI
+                    </h4>
+                    <div className="whitespace-pre-line text-[0.82rem] leading-relaxed text-app-text2/90 space-y-1">
+                      {renderExplanation(aiExplanation)}
+                    </div>
+                    <div className="mt-3.5 pt-2.5 border-t border-green-mid/10 flex items-center justify-between text-[0.72rem] text-app-text3">
+                      <span>*วิเคราะห์จาก Mifflin-St Jeor & Asian BMI</span>
+                      <button 
+                        onClick={() => setAiExplanation('')}
+                        className="font-bold font-prompt text-green-deep hover:underline cursor-pointer"
+                      >
+                        ตกลง
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
             <div className="space-y-5">
               {[
                 { label: 'แคลอรีเผาผลาญต่อวัน', val: goals.calories, unit: 'kcal', key: 'calories' },
