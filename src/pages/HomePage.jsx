@@ -14,42 +14,8 @@ export default function HomePage() {
   const navigate = useNavigate()
   const { user } = useAuth()
   const { showToast } = useToast()
-  const { steps, caloriesBurned, sleepHours, caloriesIntake, physicalProfile, syncGoogleFitSteps, goals } = useHealthStore()
+  const { caloriesBurned, sleepHours, caloriesIntake, physicalProfile, goals } = useHealthStore()
   const [modalType, setModalType] = useState(null)
-  const [isSyncing, setIsSyncing] = useState(false)
-  const [showSimulateModal, setShowSimulateModal] = useState(false)
-
-  const handleSync = async () => {
-    if (!user) return;
-    
-    // If not logged in via Google SSO (email/password login)
-    if (!user.accessToken) {
-      showToast('ระบบนี้ต้องการล็อกอินด้วย Google เพื่อซิงค์กับ Google Fit จริง', 'warning')
-      return
-    }
-
-    setIsSyncing(true)
-    // Pass accessToken and user.email to sync with real API and background-sync to PostgreSQL
-    const result = await syncGoogleFitSteps(user.accessToken, user.email)
-    setIsSyncing(false)
-
-    if (result !== null) {
-      showToast('ซิงค์จำนวนก้าวจาก Google Fit สำเร็จ', 'success')
-    } else {
-      // Open simulator mode popup
-      setShowSimulateModal(true)
-    }
-  }
-
-  const handleSimulateSync = async () => {
-    setIsSyncing(true)
-    setShowSimulateModal(false)
-    const result = await syncGoogleFitSteps(user?.accessToken || 'simulated', user?.email, true)
-    setIsSyncing(false)
-    if (result !== null) {
-      showToast(`ซิงค์จำนวนก้าว (จำลอง Google Fit) สำเร็จ: ${result.toLocaleString()} ก้าว!`, 'success')
-    }
-  }
 
   // Calculate BMR & TDEE
   const calculateTDEE = () => {
@@ -70,13 +36,6 @@ export default function HomePage() {
     ? { label: 'น้ำหนักเกิน', color: '#f59e0b', bar: 'linear-gradient(90deg, #f59e0b, #fbbf24)', pct: 70 + ((bmiVal - 23) / 2) * 15 }
     : { label: 'อ้วน', color: '#ef4444', bar: 'linear-gradient(90deg, #ef4444, #f87171)', pct: Math.min(85 + ((bmiVal - 25) / 10) * 15, 100) }
 
-  const stepsCard = { 
-    id: 'steps',
-    icon: <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 16v-2.35c0-1.17.69-2.21 1.75-2.65L12 8l6.25 3c1.06.44 1.75 1.48 1.75 2.65V16"/><path d="M4 16c0 1.1.9 2 2 2h12a2 2 0 0 0 2-2"/><path d="M12 8V4"/><path d="M8 4h8"/></svg>,
-    iconColor: 'text-green-mid',
-    val: steps.toLocaleString(), label: `ก้าว / เป้า ${goals.steps.toLocaleString()}`, pct: Math.min((steps / goals.steps) * 100, 100), bar: 'linear-gradient(90deg, #16a97a, #22d6a0)',
-  }
-
   const bmiCard = {
     id: 'bmi',
     icon: <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M15 2H9a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1z"/><path d="M12 11h4"/><path d="M12 16h4"/><path d="M8 11h.01"/><path d="M8 16h.01"/></svg>,
@@ -85,7 +44,7 @@ export default function HomePage() {
   }
 
   const stats = [
-    user?.accessToken ? stepsCard : bmiCard,
+    bmiCard,
     { 
       id: 'calories-burn',
       iconColor: 'text-green-mid',
@@ -132,17 +91,6 @@ export default function HomePage() {
       <div className="flex md:grid md:grid-cols-4 gap-3 md:gap-[18px] mb-6 overflow-x-auto pb-1 -mx-1 px-1">
         {stats.map((s, i) => (
           <div key={s.id} className="bg-app-bg2 rounded-2xl p-4 md:p-6 shadow-app border-[1.5px] border-app-border text-center transition-transform duration-150 hover:-translate-y-0.5 min-w-[140px] md:min-w-0 flex-shrink-0 md:flex-shrink relative">
-            {/* Steps card: sync button for Google users */}
-            {s.id === 'steps' && user?.accessToken && (
-              <button 
-                onClick={(e) => { e.stopPropagation(); handleSync(); }} 
-                disabled={isSyncing}
-                className="absolute top-3 right-3 text-app-text3 hover:text-green-mid disabled:opacity-50 transition-colors bg-transparent border-none cursor-pointer p-1 flex items-center justify-center"
-                title="Sync from Google Fit"
-              >
-                <svg className={`w-4 h-4 ${isSyncing ? 'animate-spin text-green-mid' : ''}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/></svg>
-              </button>
-            )}
             {/* BMI card: link to settings to update profile */}
             {s.id === 'bmi' && (
               <button
@@ -228,49 +176,10 @@ export default function HomePage() {
         title={
           modalType === 'exercise' ? 'บันทึกออกกำลังกาย' : 
           modalType === 'food' ? 'บันทึกมื้ออาหาร' : 
-          modalType === 'sleep' ? 'บันทึกการนอน' : 
-          modalType === 'steps' ? 'บันทึกจำนวนก้าว' : ''
+          modalType === 'sleep' ? 'บันทึกการนอน' : ''
         }
       >
         {modalType && <LogForm type={modalType} onSuccess={() => setModalType(null)} />}
-      </Modal>
-
-      <Modal 
-        isOpen={showSimulateModal} 
-        onClose={() => setShowSimulateModal(false)} 
-        title="จำลองการเชื่อมต่อ Google Fit"
-      >
-        <div className="space-y-5 text-center py-4 font-sarabun">
-          <div className="w-16 h-16 rounded-full bg-amber-50 text-amber-500 border border-amber-200 flex items-center justify-center mx-auto mb-2 animate-bounce">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-          </div>
-          <div>
-            <h4 className="text-[1.1rem] font-bold font-prompt text-app-text mb-2">ไม่สามารถเชื่อมต่อ Google Fit API ได้</h4>
-            <p className="text-[0.88rem] text-app-text2 leading-relaxed px-2">
-              เกิดจากข้อจำกัดสิทธิ์ความปลอดภัย OAuth (Sensitive Scopes) หรือแอปยังไม่ได้รับการอนุมัติโครงการบน Google Cloud Console
-            </p>
-            <p className="text-[0.82rem] text-app-text3 mt-3 px-3 py-2 bg-app-bg rounded-lg border border-app-border">
-              💡 เพื่อการนำเสนอและทดสอบที่ราบรื่น คุณสามารถใช้งาน <strong>"โหมดจำลอง (Simulate Sync)"</strong> เพื่อสุ่มจำนวนก้าวเดินแบบสุ่มสมจริงแทนได้ครับ
-            </p>
-          </div>
-          <div className="flex gap-3 pt-2">
-            <button 
-              type="button"
-              onClick={() => setShowSimulateModal(false)}
-              className="flex-1 py-2.5 rounded-app-sm border-[1.5px] border-app-border text-[0.9rem] font-semibold text-app-text2 hover:bg-app-bg2 transition-colors active:scale-95"
-            >
-              ยกเลิก
-            </button>
-            <button 
-              type="button"
-              onClick={handleSimulateSync}
-              className="flex-1 py-2.5 rounded-app-sm text-[0.9rem] font-semibold text-white transition-opacity hover:opacity-90 active:scale-95 shadow-sm"
-              style={{ backgroundColor: 'var(--color-green-mid)' }}
-            >
-              ใช้ข้อมูลจำลอง
-            </button>
-          </div>
-        </div>
       </Modal>
     </div>
     </PageTransition>

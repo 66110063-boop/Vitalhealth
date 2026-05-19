@@ -102,14 +102,6 @@ export default function SettingsPage() {
     </div>
   )
 
-  const colors = [
-    { name: 'Green', hex: '#16a97a' },
-    { name: 'Blue', hex: '#0891b2' },
-    { name: 'Purple', hex: '#8b5cf6' },
-    { name: 'Rose', hex: '#f43f5e' },
-    { name: 'Orange', hex: '#f59e0b' },
-  ]
-
   return (
     <PageTransition>
     <div className="py-9">
@@ -123,19 +115,9 @@ export default function SettingsPage() {
           <div className="bg-white rounded-app p-7 shadow-app border-[1.5px] border-app-border">
             <h3 className="text-[1.05rem] font-semibold mb-6 flex items-center gap-2 font-prompt text-green-deep">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z"/><path d="M12 12V4"/><path d="M12 12l4 4"/></svg>
-              ธีมและสีสัน
+              การแสดงผล
             </h3>
-            <div className="flex gap-4 mb-4">
-              {colors.map(c => (
-                <button
-                  key={c.hex}
-                  onClick={() => setThemeColor(c.hex, user?.email)}
-                  className={`w-9 h-9 rounded-full border-2 transition-all hover:scale-110 ${themeColor === c.hex ? 'border-white ring-2 ring-offset-2 ring-gray-300' : 'border-transparent'}`}
-                  style={{ backgroundColor: c.hex }}
-                />
-              ))}
-            </div>
-            <div className="flex items-center justify-between mt-6 pt-6 border-t border-app-border">
+            <div className="flex items-center justify-between">
               <div>
                 <div className="text-[0.9rem] font-medium text-app-text font-sarabun">โหมดกลางคืน (Dark Mode)</div>
                 <div className="text-[0.75rem] text-app-text3 font-sarabun mt-1">ถนอมสายตาในที่มืด</div>
@@ -151,7 +133,6 @@ export default function SettingsPage() {
             </h3>
             <div className="space-y-5">
               {[
-                { label: 'ก้าวเดินต่อวัน', val: goals.steps, unit: 'ก้าว', key: 'steps' },
                 { label: 'แคลอรีเผาผลาญต่อวัน', val: goals.calories, unit: 'kcal', key: 'calories' },
                 { label: 'เวลานอนต่อวัน', val: goals.sleep, unit: 'ชม.', key: 'sleep' },
                 { label: 'น้ำหนักเป้าหมาย', val: goals.targetWeight, unit: 'กก.', key: 'targetWeight' },

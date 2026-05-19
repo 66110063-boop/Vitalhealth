@@ -31,7 +31,6 @@ export default function LoginPage({ onSuccess }) {
   }
 
   const handleGoogleLogin = useGoogleLogin({
-    scope: 'https://www.googleapis.com/auth/fitness.activity.read',
     onSuccess: async (tokenResponse) => {
       setLoading(true)
       try {
