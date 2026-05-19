@@ -1,0 +1,156 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-bg-main: #f0faf6;
+    --color-bg-card: #ffffff;
+    --color-bg-card2: #f8fdfa;
+    --color-text-main: #0f2d22;
+    --color-text-muted: #4b6a5e;
+    --color-text-light: #6a8c7e;
+    --color-border: #d2efe3;
+    
+    --color-green-deep: #0d6e4f;
+    --color-green-mid: #16a97a;
+    --color-green-pale: #b8e8d6;
+  }
+
+  .dark {
+    --color-bg-main: #0f172a;
+    --color-bg-card: #1e293b;
+    --color-bg-card2: #0f172a;
+    --color-text-main: #f8fafc;
+    --color-text-muted: #cbd5e1;
+    --color-text-light: #94a3b8;
+    --color-border: #334155;
+    
+    --color-green-deep: #34d399; /* lighter green for dark mode */
+    --color-green-mid: #10b981;
+    --color-green-pale: #064e3b;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    font-family: 'Sarabun', sans-serif;
+    background-color: var(--color-bg-main);
+    color: var(--color-text-main);
+    min-height: 100vh;
+    overflow-x: hidden;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  h1, h2, h3, h4 {
+    font-family: 'Prompt', sans-serif;
+  }
+}
+
+@layer components {
+  .toggle-switch {
+    @apply w-11 h-6 rounded-full relative cursor-pointer transition-colors duration-200;
+  }
+  .toggle-switch::after {
+    content: '';
+    @apply absolute top-[3px] left-[3px] w-[18px] h-[18px] rounded-full bg-white transition-all duration-200;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+  }
+  .toggle-switch.on {
+    background-color: #16a97a;
+  }
+  .toggle-switch.off {
+    background-color: #b8e8d6;
+  }
+  .toggle-switch.on::after {
+    left: 23px;
+  }
+}
+
+/* Sleep ring rotation */
+.sleep-ring-svg {
+  transform: rotate(-90deg);
+}
+
+/* Bar chart items */
+.bar-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  flex: 1;
+}
+.bar {
+  width: 100%;
+  border-radius: 6px 6px 0 0;
+  transition: all 0.3s;
+  cursor: pointer;
+  min-height: 4px;
+}
+.bar:hover {
+  opacity: 0.8;
+}
+
+/* Toast animation */
+@keyframes slideUp {
+  from { transform: translateY(80px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+@keyframes slideDown {
+  from { transform: translateY(0); opacity: 1; }
+  to { transform: translateY(80px); opacity: 0; }
+}
+.toast-enter {
+  animation: slideUp 0.3s forwards;
+}
+.toast-exit {
+  animation: slideDown 0.3s forwards;
+}
+
+/* Login page gradient background */
+.login-bg {
+  background: linear-gradient(135deg, #0d6e4f 0%, #16a97a 50%, #0891b2 100%);
+}
+
+/* Star rating */
+.star { opacity: 0.3; transition: transform 0.15s; }
+.star.active { opacity: 1; transform: scale(1.1); }
+
+/* Mobile improvements */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Smooth scrolling for stat strip */
+.overflow-x-auto {
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.overflow-x-auto::-webkit-scrollbar {
+  display: none;
+}
+
+/* Prevent font scaling on iOS */
+body {
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Better touch targets - minimum 44px */
+input[type="time"],
+input[type="number"],
+select {
+  min-height: 44px;
+}
+
+/* Prevent zoom on input focus (iOS) */
+@media screen and (max-width: 768px) {
+  input[type="text"],
+  input[type="number"],
+  input[type="email"],
+  input[type="password"],
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+}
+
