@@ -333,7 +333,7 @@ export default function SettingsPage() {
                   <div className="flex items-center gap-2">
                     <input type="number" value={f.val}
                       onChange={e => updateGoals({ [f.key]: parseFloat(e.target.value) || 0 }, user?.email)}
-                      className="w-24 px-3 py-1.5 border border-app-border rounded-app-sm text-center font-sarabun text-[0.9rem] focus:border-green-mid outline-none" />
+                      className="w-24 px-3 py-1.5 border border-app-border rounded-app-sm bg-app-bg text-app-text text-center font-sarabun text-[0.9rem] focus:border-green-mid outline-none" />
                     <span className="text-[0.85rem] text-app-text3 w-10 font-sarabun">{f.unit}</span>
                   </div>
                 </div>
