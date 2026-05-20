@@ -70,7 +70,7 @@ export default function ProfilePage() {
       <form onSubmit={handleSave} className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {/* Left Side - Avatar & Summary */}
         <div className="md:col-span-1 space-y-6">
-          <div className="bg-white rounded-app p-8 shadow-app border-[1.5px] border-app-border text-center">
+          <div className="bg-app-card rounded-app p-8 shadow-app border-[1.5px] border-app-border text-center">
             <div className="w-32 h-32 mx-auto rounded-full bg-app-bg2 border-4 border-white shadow-md overflow-hidden mb-4 relative group">
               <img 
                 src={user?.avatar || 'https://www.w3schools.com/howto/img_avatar.png'} 
@@ -88,7 +88,7 @@ export default function ProfilePage() {
             </div>
           </div>
 
-          <div className="bg-white rounded-app p-6 shadow-app border-[1.5px] border-app-border">
+          <div className="bg-app-card rounded-app p-6 shadow-app border-[1.5px] border-app-border">
             <h4 className="text-[0.95rem] font-semibold mb-4 font-prompt text-green-deep">ความคืบหน้า</h4>
             <div className="space-y-4">
               <div>
@@ -106,7 +106,7 @@ export default function ProfilePage() {
 
         {/* Right Side - Edit Form */}
         <div className="md:col-span-2 space-y-6">
-          <div className="bg-white rounded-app p-8 shadow-app border-[1.5px] border-app-border">
+          <div className="bg-app-card rounded-app p-8 shadow-app border-[1.5px] border-app-border">
             <h3 className="text-[1.05rem] font-semibold mb-6 flex items-center gap-2 font-prompt text-green-deep border-b border-app-bg2 pb-4">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
               แก้ไขข้อมูลส่วนตัว
@@ -116,19 +116,19 @@ export default function ProfilePage() {
               <div className="sm:col-span-2">
                 <label className="block text-[0.88rem] font-medium text-app-text2 mb-1.5 font-sarabun">ชื่อที่แสดง</label>
                 <input type="text" value={profile.name} onChange={e => setProfile({...profile, name: e.target.value})}
-                  className="w-full px-4 py-2.5 border-[1.5px] border-app-border rounded-app-sm bg-app-bg text-app-text font-sarabun outline-none focus:border-green-mid focus:bg-white transition-all" />
+                  className="w-full px-4 py-2.5 border-[1.5px] border-app-border rounded-app-sm bg-app-bg text-app-text font-sarabun outline-none focus:border-green-mid focus:bg-app-card transition-all" />
               </div>
               
               <div>
                 <label className="block text-[0.88rem] font-medium text-app-text2 mb-1.5 font-sarabun">อายุ (ปี)</label>
                 <input type="number" value={profile.age} onChange={e => setProfile({...profile, age: e.target.value})}
-                  className="w-full px-4 py-2.5 border-[1.5px] border-app-border rounded-app-sm bg-app-bg text-app-text font-sarabun outline-none focus:border-green-mid focus:bg-white transition-all" />
+                  className="w-full px-4 py-2.5 border-[1.5px] border-app-border rounded-app-sm bg-app-bg text-app-text font-sarabun outline-none focus:border-green-mid focus:bg-app-card transition-all" />
               </div>
               
               <div>
                 <label className="block text-[0.88rem] font-medium text-app-text2 mb-1.5 font-sarabun">เพศ</label>
                 <select value={profile.gender} onChange={e => setProfile({...profile, gender: e.target.value})}
-                  className="w-full px-4 py-2.5 border-[1.5px] border-app-border rounded-app-sm bg-app-bg text-app-text font-sarabun outline-none focus:border-green-mid focus:bg-white transition-all cursor-pointer">
+                  className="w-full px-4 py-2.5 border-[1.5px] border-app-border rounded-app-sm bg-app-bg text-app-text font-sarabun outline-none focus:border-green-mid focus:bg-app-card transition-all cursor-pointer">
                   <option>ชาย</option>
                   <option>หญิง</option>
                   <option>อื่นๆ</option>
@@ -138,19 +138,19 @@ export default function ProfilePage() {
               <div>
                 <label className="block text-[0.88rem] font-medium text-app-text2 mb-1.5 font-sarabun">น้ำหนัก (กก.)</label>
                 <input type="number" value={profile.weight} onChange={e => setProfile({...profile, weight: e.target.value})}
-                  className="w-full px-4 py-2.5 border-[1.5px] border-app-border rounded-app-sm bg-app-bg text-app-text font-sarabun outline-none focus:border-green-mid focus:bg-white transition-all" />
+                  className="w-full px-4 py-2.5 border-[1.5px] border-app-border rounded-app-sm bg-app-bg text-app-text font-sarabun outline-none focus:border-green-mid focus:bg-app-card transition-all" />
               </div>
 
               <div>
                 <label className="block text-[0.88rem] font-medium text-app-text2 mb-1.5 font-sarabun">ส่วนสูง (ซม.)</label>
                 <input type="number" value={profile.height} onChange={e => setProfile({...profile, height: e.target.value})}
-                  className="w-full px-4 py-2.5 border-[1.5px] border-app-border rounded-app-sm bg-app-bg text-app-text font-sarabun outline-none focus:border-green-mid focus:bg-white transition-all" />
+                  className="w-full px-4 py-2.5 border-[1.5px] border-app-border rounded-app-sm bg-app-bg text-app-text font-sarabun outline-none focus:border-green-mid focus:bg-app-card transition-all" />
               </div>
 
               <div className="sm:col-span-2">
                 <label className="block text-[0.88rem] font-medium text-app-text2 mb-1.5 font-sarabun">ระดับกิจกรรม (Activity Level)</label>
                 <select value={profile.activityLevel} onChange={e => setProfile({...profile, activityLevel: e.target.value})}
-                  className="w-full px-4 py-2.5 border-[1.5px] border-app-border rounded-app-sm bg-app-bg text-app-text font-sarabun outline-none focus:border-green-mid focus:bg-white transition-all cursor-pointer">
+                  className="w-full px-4 py-2.5 border-[1.5px] border-app-border rounded-app-sm bg-app-bg text-app-text font-sarabun outline-none focus:border-green-mid focus:bg-app-card transition-all cursor-pointer">
                   <option value="1.2">ไม่ออกกำลังกายเลย (Sedentary)</option>
                   <option value="1.375">ออกกำลังกายเบาๆ 1-3 วัน/สัปดาห์ (Lightly active)</option>
                   <option value="1.55">ออกกำลังกายปานกลาง 3-5 วัน/สัปดาห์ (Moderately active)</option>
@@ -163,7 +163,7 @@ export default function ProfilePage() {
             <div className="mb-8">
               <label className="block text-[0.88rem] font-medium text-app-text2 mb-1.5 font-sarabun">แนะนำตัวเองสั้นๆ</label>
               <textarea value={profile.bio} onChange={e => setProfile({...profile, bio: e.target.value})} rows="3"
-                className="w-full px-4 py-2.5 border-[1.5px] border-app-border rounded-app-sm bg-app-bg text-app-text font-sarabun outline-none focus:border-green-mid focus:bg-white transition-all resize-none" />
+                className="w-full px-4 py-2.5 border-[1.5px] border-app-border rounded-app-sm bg-app-bg text-app-text font-sarabun outline-none focus:border-green-mid focus:bg-app-card transition-all resize-none" />
             </div>
 
             <button type="submit" disabled={loading}

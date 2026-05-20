@@ -248,7 +248,7 @@ export default function SettingsPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div className="space-y-8">
-          <div className="bg-white rounded-app p-7 shadow-app border-[1.5px] border-app-border">
+          <div className="bg-app-card rounded-app p-7 shadow-app border-[1.5px] border-app-border">
             <h3 className="text-[1.05rem] font-semibold mb-6 flex items-center gap-2 font-prompt text-green-deep">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z"/><path d="M12 12V4"/><path d="M12 12l4 4"/></svg>
               การแสดงผล
@@ -262,7 +262,7 @@ export default function SettingsPage() {
             </div>
           </div>
 
-          <div className="bg-white rounded-app p-7 shadow-app border-[1.5px] border-app-border relative overflow-hidden">
+          <div className="bg-app-card rounded-app p-7 shadow-app border-[1.5px] border-app-border relative overflow-hidden">
             <div className="flex items-center justify-between mb-6 border-b border-app-bg2 pb-4">
               <h3 className="text-[1.05rem] font-semibold flex items-center gap-2 font-prompt text-green-deep">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
@@ -348,7 +348,7 @@ export default function SettingsPage() {
           </div>
         </div>
 
-        <div className="bg-white rounded-app p-7 shadow-app border-[1.5px] border-app-border h-fit">
+        <div className="bg-app-card rounded-app p-7 shadow-app border-[1.5px] border-app-border h-fit">
           <h3 className="text-[1.05rem] font-semibold mb-6 flex items-center gap-2 font-prompt text-green-deep border-b border-app-bg2 pb-4">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
             การแจ้งเตือน

@@ -43,11 +43,13 @@ export default function App() {
     const activeTheme = roots[themeColor] || roots['#16a97a'];
     
     if (isDarkMode) {
+      document.documentElement.classList.add('dark');
       document.documentElement.style.setProperty('--color-green-deep', activeTheme.mid);
       document.documentElement.style.setProperty('--color-green-mid', activeTheme.mid);
       document.documentElement.style.setProperty('--color-green-pale', activeTheme.deep);
       document.documentElement.style.setProperty('--color-bg-main', '#0f172a');
     } else {
+      document.documentElement.classList.remove('dark');
       document.documentElement.style.setProperty('--color-green-deep', activeTheme.deep);
       document.documentElement.style.setProperty('--color-green-mid', activeTheme.mid);
       document.documentElement.style.setProperty('--color-green-pale', activeTheme.pale);

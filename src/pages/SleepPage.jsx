@@ -59,7 +59,7 @@ export default function SleepPage() {
         <p className="text-app-text3 text-[0.95rem] mt-1 font-sarabun">ติดตามคุณภาพการนอนเพื่อพลังงานที่ดีขึ้น</p>
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-white rounded-app p-7 shadow-app border-[1.5px] border-app-border">
+        <div className="bg-app-card rounded-app p-7 shadow-app border-[1.5px] border-app-border">
           <h3 className="text-[1.05rem] font-semibold mb-5 flex items-center gap-2 font-prompt text-green-deep">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
             บันทึกการนอน
@@ -95,7 +95,7 @@ export default function SleepPage() {
               <div key={i}>
                 <label className="block text-[0.88rem] font-medium text-app-text2 mb-1.5 font-sarabun">{f.label}</label>
                 <input type="time" value={f.val} onChange={e => f.set(e.target.value)}
-                  className="w-full px-3.5 py-2.5 border-[1.5px] border-app-border rounded-app-sm bg-app-bg text-app-text font-sarabun text-[0.95rem] outline-none focus:border-green-mid focus:bg-white transition-all"
+                  className="w-full px-3.5 py-2.5 border-[1.5px] border-app-border rounded-app-sm bg-app-bg text-app-text font-sarabun text-[0.95rem] outline-none focus:border-green-mid focus:bg-app-card transition-all"
                 />
               </div>
             ))}
@@ -131,7 +131,7 @@ export default function SleepPage() {
             {loading ? 'กำลังบันทึก...' : 'บันทึกการนอน'}
           </button>
         </div>
-        <div className="bg-white rounded-app p-7 shadow-app border-[1.5px] border-app-border">
+        <div className="bg-app-card rounded-app p-7 shadow-app border-[1.5px] border-app-border">
           <h3 className="text-[1.05rem] font-semibold mb-5 flex items-center gap-2 font-prompt text-green-deep">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
             คำแนะนำการนอน

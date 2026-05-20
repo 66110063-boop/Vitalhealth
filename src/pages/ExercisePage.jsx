@@ -219,7 +219,7 @@ export default function ExercisePage() {
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Left card */}
-        <div className="bg-white rounded-app p-7 shadow-app border-[1.5px] border-app-border flex flex-col justify-between">
+        <div className="bg-app-card rounded-app p-7 shadow-app border-[1.5px] border-app-border flex flex-col justify-between">
           <div>
             {/* Tab navigation */}
             <div className="flex border-b border-app-border mb-6">
@@ -254,7 +254,7 @@ export default function ExercisePage() {
                 <div className="mb-[18px]">
                   <label className="block text-[0.88rem] font-medium text-app-text2 mb-1.5 font-sarabun">ประเภทการออกกำลังกาย</label>
                   <select
-                    className="w-full px-3.5 py-2.5 border-[1.5px] border-app-border rounded-app-sm bg-app-bg text-app-text font-sarabun text-[0.95rem] outline-none transition-colors focus:border-green-mid focus:bg-white cursor-pointer"
+                    className="w-full px-3.5 py-2.5 border-[1.5px] border-app-border rounded-app-sm bg-app-bg text-app-text font-sarabun text-[0.95rem] outline-none transition-colors focus:border-green-mid focus:bg-app-card cursor-pointer"
                     value={exType}
                     onChange={e => { setExType(e.target.value); calcCalories(e.target.value, exStart, exEnd) }}
                   >
@@ -275,7 +275,7 @@ export default function ExercisePage() {
                     <div key={f.id}>
                       <label className="block text-[0.88rem] font-medium text-app-text2 mb-1.5 font-sarabun">{f.label}</label>
                       <input type="time" value={f.val} onChange={e => f.set(e.target.value)}
-                        className="w-full px-3.5 py-2.5 border-[1.5px] border-app-border rounded-app-sm bg-app-bg text-app-text font-sarabun text-[0.95rem] outline-none transition-colors focus:border-green-mid focus:bg-white transition-all"
+                        className="w-full px-3.5 py-2.5 border-[1.5px] border-app-border rounded-app-sm bg-app-bg text-app-text font-sarabun text-[0.95rem] outline-none transition-colors focus:border-green-mid focus:bg-app-card transition-all"
                       />
                     </div>
                   ))}
@@ -305,7 +305,7 @@ export default function ExercisePage() {
                   <label className="block text-[0.88rem] font-medium text-app-text2 mb-1.5 font-sarabun">เลือกกิจกรรมออกกำลังกาย</label>
                   <select
                     disabled={isActive}
-                    className="w-full px-3.5 py-2.5 border-[1.5px] border-app-border rounded-app-sm bg-app-bg text-app-text font-sarabun text-[0.95rem] outline-none focus:border-green-mid focus:bg-white cursor-pointer disabled:opacity-60"
+                    className="w-full px-3.5 py-2.5 border-[1.5px] border-app-border rounded-app-sm bg-app-bg text-app-text font-sarabun text-[0.95rem] outline-none focus:border-green-mid focus:bg-app-card cursor-pointer disabled:opacity-60"
                     value={timerExType}
                     onChange={e => setTimerExType(e.target.value)}
                   >
@@ -356,7 +356,7 @@ export default function ExercisePage() {
                           setWorkSeconds(val);
                           if (!isResting) setTimeLeft(val);
                         }}
-                        className="w-full text-center px-2 py-1.5 border border-app-border rounded bg-white text-app-text font-sarabun text-[0.9rem] outline-none focus:border-green-mid"
+                        className="w-full text-center px-2 py-1.5 border border-app-border rounded bg-app-bg text-app-text font-sarabun text-[0.9rem] outline-none focus:border-green-mid"
                       />
                     </div>
                     <div>
@@ -371,7 +371,7 @@ export default function ExercisePage() {
                           setRestSeconds(val);
                           if (isResting) setTimeLeft(val);
                         }}
-                        className="w-full text-center px-2 py-1.5 border border-app-border rounded bg-white text-app-text font-sarabun text-[0.9rem] outline-none focus:border-green-mid"
+                        className="w-full text-center px-2 py-1.5 border border-app-border rounded bg-app-bg text-app-text font-sarabun text-[0.9rem] outline-none focus:border-green-mid"
                       />
                     </div>
                     <div>
@@ -382,7 +382,7 @@ export default function ExercisePage() {
                         min="1"
                         value={totalRounds}
                         onChange={e => setTotalRounds(Math.max(1, parseInt(e.target.value) || 1))}
-                        className="w-full text-center px-2 py-1.5 border border-app-border rounded bg-white text-app-text font-sarabun text-[0.9rem] outline-none focus:border-green-mid"
+                        className="w-full text-center px-2 py-1.5 border border-app-border rounded bg-app-bg text-app-text font-sarabun text-[0.9rem] outline-none focus:border-green-mid"
                       />
                     </div>
                   </div>
@@ -472,7 +472,7 @@ export default function ExercisePage() {
         </div>
 
         {/* Right card - chart */}
-        <div className="bg-white rounded-app p-7 shadow-app border-[1.5px] border-app-border">
+        <div className="bg-app-card rounded-app p-7 shadow-app border-[1.5px] border-app-border">
           <h3 className="text-[1.05rem] font-semibold mb-5 flex items-center gap-2 font-prompt text-green-deep">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg>
             ประวัติและสถิติ

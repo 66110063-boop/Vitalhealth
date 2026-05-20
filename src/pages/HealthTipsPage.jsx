@@ -55,7 +55,7 @@ export default function HealthTipsPage() {
           {tips.map((tip, index) => {
             const isOpen = openIndexes.includes(index)
             return (
-              <article key={tip.title} className="bg-white rounded-app p-6 border-[1.5px] border-app-border shadow-app transition hover:-translate-y-1 hover:shadow-lg">
+              <article key={tip.title} className="bg-app-card rounded-app p-6 border-[1.5px] border-app-border shadow-app transition hover:-translate-y-1 hover:shadow-lg">
                 <div className="flex items-center justify-between gap-4 mb-4">
                   <span className="inline-flex items-center gap-2 rounded-full bg-green-pale/80 px-3 py-1 text-[0.8rem] font-semibold text-green-deep font-sarabun">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 12h16"/><path d="M4 6h16"/><path d="M4 18h16"/></svg>

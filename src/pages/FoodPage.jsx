@@ -170,7 +170,7 @@ export default function FoodPage() {
         {/* Input Card */}
         <div className="lg:col-span-1 flex flex-col gap-5">
           {/* AI Scanner Area */}
-          <div className="bg-white rounded-app p-6 shadow-app border-[1.5px] border-app-border h-fit">
+          <div className="bg-app-card rounded-app p-6 shadow-app border-[1.5px] border-app-border h-fit">
             <h3 className="text-[1.05rem] font-semibold mb-4 flex items-center gap-2 font-prompt text-green-deep">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
               แสกนอาหารด้วย AI
@@ -240,7 +240,7 @@ export default function FoodPage() {
           </div>
 
           {/* Result Card */}
-          <div className="bg-white rounded-app p-6 shadow-app border-[1.5px] border-app-border">
+          <div className="bg-app-card rounded-app p-6 shadow-app border-[1.5px] border-app-border">
             <div className="space-y-4">
               <div>
                 <label className="block text-[0.88rem] font-medium text-app-text2 mb-1.5 font-sarabun">ชื่ออาหาร</label>
@@ -249,7 +249,7 @@ export default function FoodPage() {
                   value={foodName}
                   onChange={e => setFoodName(e.target.value)}
                   placeholder="เช่น ข้าวมันไก่" 
-                  className="w-full px-3.5 py-2.5 border-[1.5px] border-app-border rounded-app-sm bg-app-bg text-app-text font-sarabun text-[0.95rem] outline-none focus:border-green-mid focus:bg-white transition-all"
+                  className="w-full px-3.5 py-2.5 border-[1.5px] border-app-border rounded-app-sm bg-app-bg text-app-text font-sarabun text-[0.95rem] outline-none focus:border-green-mid focus:bg-app-card transition-all"
                 />
               </div>
               
@@ -260,7 +260,7 @@ export default function FoodPage() {
                   value={foodCal}
                   onChange={e => setFoodCal(e.target.value)}
                   placeholder="0" 
-                  className="w-full px-3.5 py-2.5 border-[1.5px] border-app-border rounded-app-sm bg-app-bg text-app-text font-sarabun text-[0.95rem] outline-none focus:border-green-mid focus:bg-white transition-all font-semibold"
+                  className="w-full px-3.5 py-2.5 border-[1.5px] border-app-border rounded-app-sm bg-app-bg text-app-text font-sarabun text-[0.95rem] outline-none focus:border-green-mid focus:bg-app-card transition-all font-semibold"
                 />
               </div>
 
@@ -296,7 +296,7 @@ export default function FoodPage() {
           </div>
           
           {/* Recent Food */}
-          <div className="bg-white rounded-app p-6 shadow-app border-[1.5px] border-app-border">
+          <div className="bg-app-card rounded-app p-6 shadow-app border-[1.5px] border-app-border">
             <h3 className="text-[1.05rem] font-semibold mb-4 font-prompt text-app-text">มื้อล่าสุด</h3>
             {recentFood.length > 0 ? (
               <div className="space-y-2">
@@ -328,7 +328,7 @@ export default function FoodPage() {
             {recipes.map((r, i) => (
               <div key={i} 
                 onClick={() => selectRecipe(r)}
-                className="group flex bg-white rounded-app overflow-hidden shadow-app border-[1.5px] border-app-border cursor-pointer transition-all hover:border-green-mid hover:-translate-x-1"
+                className="group flex bg-app-card rounded-app overflow-hidden shadow-app border-[1.5px] border-app-border cursor-pointer transition-all hover:border-green-mid hover:-translate-x-1"
               >
                 <div className="w-40 h-32 overflow-hidden">
                   <img src={r.img} alt={r.name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />

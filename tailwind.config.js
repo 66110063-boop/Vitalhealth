@@ -9,6 +9,7 @@ export default {
     extend: {
       colors: {
         'app-bg': 'var(--color-bg-main)',
+        'app-card': 'var(--color-bg-card)',
         'app-bg2': 'var(--color-bg-card2)',
         'app-text': 'var(--color-text-main)',
         'app-text2': 'var(--color-text-muted)',

@@ -76,7 +76,7 @@ export default function LoginPage({ onSuccess }) {
       </div>
 
       {/* Card */}
-      <div className="w-full max-w-md bg-white rounded-app shadow-app-lg overflow-hidden">
+      <div className="w-full max-w-md bg-app-card rounded-app shadow-app-lg overflow-hidden">
         {/* Card header */}
         <div className="bg-gradient-to-r from-green-deep to-green-mid px-8 py-6">
           <h2 className="text-white text-xl font-bold font-prompt">เข้าสู่ระบบ</h2>
@@ -101,7 +101,7 @@ export default function LoginPage({ onSuccess }) {
                 required
                 placeholder="กรอกชื่อผู้ใช้ หรือ อีเมล"
                 autoComplete="username"
-                className="w-full pl-10 pr-4 py-3 border-[1.5px] border-app-border rounded-app-sm bg-app-bg text-app-text font-sarabun text-[0.95rem] outline-none transition-all focus:border-green-mid focus:bg-white placeholder:text-app-text3/60"
+                className="w-full pl-10 pr-4 py-3 border-[1.5px] border-app-border rounded-app-sm bg-app-bg text-app-text font-sarabun text-[0.95rem] outline-none transition-all focus:border-green-mid focus:bg-app-card placeholder:text-app-text3/60"
               />
             </div>
           </div>
@@ -122,7 +122,7 @@ export default function LoginPage({ onSuccess }) {
                 required
                 placeholder="กรอกรหัสผ่าน (1234)"
                 autoComplete="current-password"
-                className="w-full pl-10 pr-12 py-3 border-[1.5px] border-app-border rounded-app-sm bg-app-bg text-app-text font-sarabun text-[0.95rem] outline-none transition-all focus:border-green-mid focus:bg-white placeholder:text-app-text3/60"
+                className="w-full pl-10 pr-12 py-3 border-[1.5px] border-app-border rounded-app-sm bg-app-bg text-app-text font-sarabun text-[0.95rem] outline-none transition-all focus:border-green-mid focus:bg-app-card placeholder:text-app-text3/60"
               />
               <button
                 type="button"

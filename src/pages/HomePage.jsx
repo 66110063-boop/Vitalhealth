@@ -161,7 +161,7 @@ export default function HomePage() {
           <button
             key={i}
             onClick={q.action}
-            className="bg-white rounded-xl p-3 md:p-[18px_14px] text-center border-[1.5px] border-app-border cursor-pointer transition-all duration-150 hover:bg-green-pale hover:border-green-mid font-sarabun group active:scale-95"
+            className="bg-app-card rounded-xl p-3 md:p-[18px_14px] text-center border-[1.5px] border-app-border cursor-pointer transition-all duration-150 hover:bg-green-pale hover:border-green-mid font-sarabun group active:scale-95"
             style={{ boxShadow: '0 2px 8px rgba(13,110,79,0.06)' }}
           >
             <div className="text-green-mid flex justify-center mb-1.5 md:mb-2 transition-transform group-hover:scale-110">{q.icon}</div>
